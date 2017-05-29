@@ -1,0 +1,33 @@
+body{
+margin:0px;
+}
+
+.h,.v{
+  stroke:black;
+  stroke-dasharray:4 4;
+  stroke-width:1;
+  stroke-opacity:.5;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+#resid_button {
+	position: absolute;
+	top: 55px;
+	left: 500px;
+}
+
+#reset_button {
+	position: absolute;
+	top: 95px;
+	left: 500px;
+}
