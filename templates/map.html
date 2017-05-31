@@ -8,7 +8,11 @@
     <title>Coefficient de Gini</title>
 
     <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-    <script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="../static/chroniton.js"></script>
+     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.8.0/d3-legend.min.js"></script>
 
 </head>
@@ -17,11 +21,12 @@
 <p id="report"></p>
 <div id="map"></div>
 <div id="legend"></div>
+<div id="slider">
+
 </body>
 <script type="text/javascript">
     var h = 450,
         w = 960;
-
     // set-up unit projection and path
     var projection = d3.geo.mercator()
             .scale(1)
@@ -34,32 +39,57 @@
     var svg = d3.select("#map").append("svg")
             .attr("height", h)
             .attr("width", w);
+
+    var showValue="";
+    var record=[];
+
     var color = d3.scale.linear()
             .range(["green", "red"]);
-    var showValue= "2007";
-    var record=[];
 
     var linear = d3.scale.linear()
             .range(["green", "red"]);
 
-    function addRecord(d){
-      if (  d[showValue]!=0){
-        d[showValue]=+d[showValue];
-        var obj = {key: d.countries, value: d[showValue]};
-        record.push(obj);
-        return d;
-      }
+    var startYear = "1982";
 
-    }
-    d3.csv("../data/1-bis-gini.csv", addRecord, function(error,data){
-        color.domain(d3.extent(data, function(d){
-          return d[showValue];
-        }));
-        linear.domain(d3.extent(data, function(d){
-          if (d[showValue]!=0)
-          {return d[showValue];}
-        }));
-    });
+    function getColor(data,d){
+                          var value=-1;
+                          record.forEach(function(d){
+                              if(data.name === d.key ){
+                                  value = d.value;
+                                  return;
+                          }
+                          });
+                          if(value==-1){
+                              return "none";
+                          }
+                          return color(value);
+                      }
+
+    function addRecord(d){
+                        if (d[showValue]!=0){
+                          d[showValue]=+d[showValue];
+                          var obj = {key: d.countries, value: d[showValue]};
+                          record.push(obj);
+                          //states.push((record));
+                          return d;
+                        }
+
+                      }
+
+
+
+function update(){
+  d3.csv("../data/1-bis-gini.csv", addRecord, function(error,dataGini){
+          color.domain(d3.extent(dataGini, function(d){
+            return d[showValue];
+          }));
+          linear.domain(d3.extent(dataGini, function(d){
+            if (d[showValue]!=0)
+            {return d[showValue];}
+          }));
+
+  console.log(dataGini.length);
+
 
     //https://github.com/johan/world.geo.json
     d3.json("../data/countries.geo.json", function(error, data) {
@@ -67,6 +97,7 @@
         d3.csv("../data/idCountry.csv", function(error, csv) {
 
             var world = data.features;
+            var giniVar = dataGini;
 
             csv.forEach(function(d, i) {
                 world.forEach(function(e, j) {
@@ -75,6 +106,19 @@
                     }
                 })
             })
+
+       svg.selectAll("path")
+      .data(world)
+      .enter()
+      .append("path")
+      .style("fill", getColor)
+      .style("stroke", "grey")
+      .style("stroke-width", "1px")
+      .attr("d", path)
+      .on("mouseover", function(d, i) {
+          reporter(d);
+      });
+});
 
             // calculate bounds, scale and transform
             // see http://stackoverflow.com/questions/14492284/center-a-map-in-d3-given-a-geojson-object
@@ -85,17 +129,6 @@
             projection.scale(s)
                     .translate(t);
 
-            svg.selectAll("path")
-                    .data(world).enter()
-                    .append("path")
-                    .style("fill", getColor)
-                    .style("stroke", "grey")
-                    .style("stroke-width", "1px")
-                    .attr("d", path)
-                    .on("mouseover", function(d, i) {
-                        reporter(d);
-                    });
-        });
         svg.append("g")
                 .attr("class", "legendLinear")
                 .attr("transform", "translate(20,20)");
@@ -112,32 +145,44 @@
             record.forEach(function(d){
                 if(x.name === d.key && d.value!=0 ){
                     value = d.value;
-                    return;
+                    return ;
                 }
             });
+
             d3.select("#report").text(function() {
-                return x.name+": "+value;
+                return x.name+": "+value + " year :"+ showValue;
             });
 
         }
 
-        function getColor(data){
-            var value=-1;
-            record.forEach(function(d){
-                if(data.name === d.key ){
+            }) //data countries
+  }); //gini
+}//update
 
-                    value = d.value;
-                    return;
 
-            }
-            });
-            if(value==-1){
-                return "none";
-            }
-            return color(value);
-        }
+d3.select("#slider")
+              .call(
+                chroniton()
+                 .labelFormat(d3.time.format('%Y'))
+                  .domain([new Date(startYear), new Date("2013")])
+                  .width(600)
 
-    })
+                  .on('change', function(date) {
+                   var newYear = Math.ceil((date.getFullYear()));
+                    if (newYear != showValue) {
+                       showValue = newYear;
+                       states = {};
+
+                       update();
+                       svg.selectAll("path").style("fill", getColor);
+              }
+            })
+            .playButton(true)
+            .playbackRate(0.2)
+            .loop(true)
+        );
+
+
 </script>
 
 </html>
