@@ -25,7 +25,7 @@
 
 </body>
 <script type="text/javascript">
-    var h = 450,
+    var h = 500,
         w = 960;
     // set-up unit projection and path
     var projection = d3.geo.mercator()
@@ -38,9 +38,22 @@
     // set-up svg canvas
     var svg = d3.select("#map").append("svg")
             .attr("height", h)
-            .attr("width", w);
+            .attr("width", w)
+            ;
 
     var showValue="";
+
+var g = svg.append("g");
+    // zoom and pan
+ var zoom = d3.behavior.zoom()
+     .on("zoom",function() {
+         g.attr("transform","translate("+
+             d3.event.translate.join(",")+")scale("+d3.event.scale+")");
+         g.selectAll("path")
+             .attr("d", path.projection(projection));
+   });
+
+   svg.call(zoom)
 
 
     var color = d3.scale.linear()
@@ -127,7 +140,7 @@ d3.csv("../data/1-bis-gini.csv", addRecord, function(error,dataGini){
                 })
             })
 
-       svg.selectAll("path")
+       g.selectAll("path")
       .data(world)
       .enter()
       .append("path")
