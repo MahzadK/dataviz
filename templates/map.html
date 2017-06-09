@@ -18,15 +18,15 @@
 </head>
 
 <body>
-<p id="report"></p>
+<div id="report"></div>
 <div id="map"></div>
 <div id="legend"></div>
 <div id="slider">
 
 </body>
 <script type="text/javascript">
-    var h = 500,
-        w = 960;
+    var h = 1000,
+        w = 1000;
     // set-up unit projection and path
     var projection = d3.geo.mercator()
             .scale(1)
@@ -65,6 +65,9 @@ var g = svg.append("g");
     var startYear = "1982";
 
     var record=[];
+
+    var report = d3.select("body").append("report")
+        .style("opacity", 0);
 
     function getColor(data){
                           var value=-1;
@@ -150,7 +153,7 @@ d3.csv("../data/1-bis-gini.csv", addRecord, function(error,dataGini){
       .attr("d", path)
       .attr('record', function() {return record; })
       .on("mouseover", function(d, i) {
-          reporter(d);
+          (reporter(d));
       });
 });
 
@@ -183,8 +186,9 @@ d3.csv("../data/1-bis-gini.csv", addRecord, function(error,dataGini){
                 }
             });
 
-            d3.select("#report").text(function() {
-                return x.name+": "+value + " year :"+ showValue;
+            d3.select("#report").html(function() {
+                return "Year :"+ showValue +" "+ "<br>" +
+                       x.name + ": "+value ;
             });
 
         }
