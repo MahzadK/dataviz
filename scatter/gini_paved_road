@@ -1,0 +1,74 @@
+index,countries,Gini,Roads paved,Continent
+0,Lesotho,63.2,18.2999992370605,Africa
+1,Haiti,60.8,24.2999992370605,North America
+2,Honduras,57.7,20.3999996185303,Central America
+3,Paraguay,53.2,50.7999992370605,South America
+4,Guatemala,53.0,34.5,Central America
+5,Chile,52.1,18.3999996185303,South America
+6,Panama,51.9,34.5999984741211,Central America
+7,Brazil,51.9,5.5,South America
+8,Ecuador,48.5,18.8999996185303,South America
+9,Thailand,48.4,98.5,Asia
+10,Mexico,48.3,32.7999992371,North America
+11,Madagascar,47.5,11.6000003814697,Africa
+12,Bolivia,46.6,6.599999904632571,South America
+13,Singapore,46.4,100.0,Asia
+14,Malaysia,46.2,76.18481450823991,Asia
+15,Argentina,45.8,29.399999618530302,South America
+16,Mozambique,45.6,18.7000007629395,Africa
+17,Jamaica,45.5,70.09999847412111,North America
+18,Peru,45.3,13.3500003814697,South America
+19,Cameroon,44.6,8.10000038146973,Africa
+20,Guyana,44.6,7.400000095367429,South America
+21,Chad,43.3,0.8000000119209291,Africa
+22,Israel,42.8,100.0,Asia
+23,Kenya,42.5,12.1000003814697,Africa
+24,Burundi,42.4,7.099999904632571,Africa
+25,Ghana,42.3,29.600000381469698,Africa
+26,Cote d'Ivoire,41.5,9.69999980926514,
+27,Djibouti,40.9,45.0,Africa
+28,Morocco,40.9,56.41999816894529,Africa
+29,Turkmenistan,40.8,81.1999969482422,Asia
+30,Nicaragua,40.5,11.0600004196,Central America
+31,Senegal,40.3,29.2999992370605,Africa
+32,Mali,40.1,12.1000003814697,Africa
+33,Tunisia,40.0,68.40000152587889,Africa
+34,Guinea,39.4,16.5,Africa
+35,Venezuela,39.0,33.5999984741211,South America
+36,Serbia,38.7,62.7000007629395,Europe
+37,Japan,37.9,76.5999984741211,Asia
+38,Indonesia,36.8,57.0999984741,Asia
+39,Uzbekistan,36.8,87.3000030517578,Asia
+40,Greece,36.7,91.8000030517578,Europe
+41,Mongolia,36.5,3.5,Asia
+42,Spain,35.9,99.0,Europe
+43,Mauritius,35.9,97.0,Africa
+44,Estonia,35.6,20.1000003814697,Europe
+45,Algeria,35.3,68.90000152587889,Africa
+46,Cyprus,34.8,60.5999984741211,Asia
+47,Portugal,34.2,86.0,Europe
+48,India,33.6,47.459999084472706,Asia
+49,Kyrgyzstan,33.4,91.0999984741211,Asia
+50,Ethiopia,33.0,12.0,Africa
+51,Poland,32.4,68.3000030517578,Europe
+52,Bangladesh,32.1,9.52999973297119,Asia
+53,Croatia,32.0,85.4,Europe
+54,Italy,31.9,100.0,Europe
+55,Ireland,31.3,100.0,Europe
+56,Egypt,30.8,78.0999984741211,Africa
+57,Luxembourg,30.4,100.0,Europe
+58,France,30.1,100.0,Europe
+59,Pakistan,29.6,56.0,Asia
+60,Austria,29.2,100.0,Europe
+61,Albania,29.0,39.0,Europe
+62,Moldova,28.5,86.0999984741211,Europe
+63,Iceland,28.0,29.5,Europe
+64,Malta,27.7,88.0,Europe
+65,Romania,27.3,49.5,Europe
+66,Norway,26.8,76.0,Europe
+67,Finland,26.8,62.0,Europe
+68,Belgium,25.9,78.1999969482422,Europe
+69,Netherlands,25.1,90.0,Europe
+70,Denmark,24.8,100.0,Europe
+71,Ukraine,24.6,96.6999969482422,Europe
+72,Slovenia,23.7,100.0,Europe
