@@ -99,7 +99,7 @@ regression=leastSquaresequation(XaxisData,YaxisData);
 var line = d3.svg.line()
     .x(function(d) { return x(d.Calories); })
     .y(function(d) { return y(regression(d.Calories)); });
-
+   
 
   svg.append("g")
       .attr("class", "x axis")
