@@ -18,12 +18,12 @@
 // Create Event Handlers for mouse
     function handleMouseOver(d, i) {  // Add interactivity
 	   // Specify where to put label of text
-					 
+
 		svg.append("text")
 			.attr("x", function(d) { console.log(d3.event.pageX);return 0; })
 			.attr("y",function(d) { return 200; } )
 			.text(function() {
-			
+
 		    	return "hello"  // Value of the text
 		 	});
 	}
@@ -34,43 +34,43 @@
             r: function(d) { return pop(d.population) * 2.5}
     }).style("opacity", 0.5);
 
-   div.transition()        
+   div.transition()
       .style("opacity", .7);
     div.html("<strong> <p> "+d.place +" </p></strong>"+ "<br/>" + "Code Postal : " + "<strong> "+d.codePostal +"</strong>"
-                +  "<br/>" + "Populations : " + "<strong> "+ d.population +"</strong>")  
-       .style("left", (d3.event.pageX) + "px")    
-        .style("top", (d3.event.pageY - 28) + "px");    
+                +  "<br/>" + "Populations : " + "<strong> "+ d.population +"</strong>")
+       .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");
 }
 */
-				
+
    var svg = d3.select("svg"),
        width = +svg.attr("width"),
        height = +svg.attr("height");
-   
+
    var fader = function(color) { return d3.interpolateRgb(color, "#fff")(0.2); },
        color = d3.scaleOrdinal(d3.schemeCategory10.map(fader)),
        format = d3.format(",d");
-   
+
    var treemap = d3.treemap()
        .tile(d3.treemapResquarify)
        .size([width, height])
        .round(true)
        //.paddingTop(20)
        .paddingInner(1);
-   
-			
+
+
 	// *******************************************************************
 	//       L O A D     D A T A
-	// *******************************************************************		
+	// *******************************************************************
    d3.json("../data/data_viz3.json", function(error, data) {
     	if (error) throw error;
-	 	
+
 		 var root = d3.hierarchy(data)
          .eachBefore(function(d) { d.data.id = (d.parent ? d.parent.data.id + "." : "") + d.data.name; })
          .sum(sumBySize)
          .sort(function(a, b) { return b.height - a.height || b.value - a.value; });
-   		
-		
+
+
 		var countries_tag = []
 		data_to_display = root.descendants()
 		data_to_display.forEach(function(element){
@@ -79,13 +79,13 @@
 				//console.log(element)
 			}
 		})
-		//console.log(countries_tag)		
-				
-				
-				
-		// C R E A T E      T R E E M A P 
+		//console.log(countries_tag)
+
+
+
+		// C R E A T E      T R E E M A P
      	treemap(root);
-		
+
 		// Insère chaque feuille de l'arbre dans une balise g de classe égale au nom du pays
 	 	var c= svg.selectAll( 'g')
 	 	c.data(root.leaves())
@@ -93,29 +93,29 @@
 		    .enter().append("g")
 		     .attr ("class", function (d){  return  d.parent.data.name })
 		     .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; });
-		
-			
+
+
 		// *******************************************************************
 		//       F O R       E A C H     C O U N T R Y
-		// *******************************************************************	
-	 	
-		for (var i =0; i<countries_tag.length; i++){   
+		// *******************************************************************
+
+		for (var i =0; i<countries_tag.length; i++){
 			country = countries_tag[i].data.name
-   			
+
 			// **********************************************************************************
 		    //   C R E A T E      D I C T     F O R     R E C T      D I M E N S I O N S
 		    // **********************************************************************************
 		    var coord = { x0:  [], x1:  [], y0:  [], y1: [], width : 0, height : 0, diag : 0, angle :0 };
-				
-			countries_tag[i].children.forEach (function(d){ 
+
+			countries_tag[i].children.forEach (function(d){
 		    		//console.log(d);
 					coord.x0.push(d.x0);
 		   			coord.x1.push(d.x1);
 		   			coord.y0.push(d.y0);
 		   			coord.y1.push(d.y1);
 		    	})
-       
-		   
+
+
 			   if (coord.x0[0] == coord.x0[1]){
 			   	coord.width = coord.x1[0] - coord.x0[0]
 			   	coord.height = coord.y1[1] - coord.y0[0]
@@ -124,28 +124,28 @@
 			   	coord.width = coord.x1[1] - coord.x0[0]
 			   	coord.height = coord.y1[0] - coord.y0[0]
 			   }
-			   
+
 			   coord.diag = Math.sqrt(Math.pow(coord.width, 2) + Math.pow(coord.height, 2) )
 			   coord.angle = Math.atan( coord.height / coord.width) * 180 / Math.PI
-   
+
    				var cells= svg.selectAll( 'g.'+country)
 		   		// *******************************************************************************************
 		   		// Ajoute un rectangle de dimension donnée de couleur correspondant au Gini du parent
 				// *******************************************************************************************
 			    cells.append("rect")
-				    
+
 			    	.attr("id", function(d) { return d.data.id; })
 			        .attr("width", function(d) { return d.x1 - d.x0; })
 			        .attr("height", function(d) { return d.y1 - d.y0; })
 					.classed("background", true)
-			        .attr("fill", function(d) { 
+			        .attr("fill", function(d) {
 			         return color(d.parent.data.gini);
 			    });
-			
+
 		   		// *******************************************************************************************
-		   		// Ajoute un élément texte avec le nom de la feature 
+		   		// Ajoute un élément texte avec le nom de la feature
 				// *******************************************************************************************
-		   		
+
 		    	cells.append("text")
        				.selectAll("tspan")
 				    .data(function(d) { return d.data.name.split(/(?=[A-Z][^A-Z])/g); })
@@ -153,13 +153,13 @@
 				    .attr("x", 4)
 				    .attr("y", function(d, i) { return 13 + i * 10; })
 				    .text(function(d) { return d; });
-			   
-			   
+
+
 			   // *******************************************************************************************
 		   		// Ajoute un élément texte avec le nom du pays
 				// *******************************************************************************************
-			   /*
-			   first_cell = svg.select( 'g.'+country)			    
+
+			   first_cell = svg.select( 'g.'+country)
 				first_cell.append("text")
 			        .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; })
 			        .text(function(d) { return d.parent.data.name; })
@@ -168,42 +168,40 @@
 			        .attr ("textLength",function(d) { return Math.sqrt(Math.pow(coord.width,2)+Math.pow(coord.height,2));})
 			        .attr ("lengthAdjust","spacing")
 					//.attr("style", "stroke: white;")
-				*/
-				
-				
-	  			
+
+
 				cells.on("mouseover", handleMouseOver)
-				
+
 			    d3.selectAll("input")
 			         .data([sumBySize, sumByCount], function(d) { return d ? d.name : this.value; })
 			         .on("change", changed);
-			   
+
 			     var timeout = d3.timeout(function() {
 			       d3.select("input[value=\"sumByCount\"]")
 			           .property("checked", true)
 			           .dispatch("change");
 			     }, 2000);
-			   
+
 			     function changed(sum) {
 			       timeout.stop();
 			     }
 				// }// END IF (Country name)
 				 //}// END IF (Country exists)
-	   
+
    			}//END FOREACH COUNTRY
-   
+
    //}); // END READ_CSV
    }); // END READ_JSON
-   
-   
-   
+
+
+
    function sumByCount(d) {
      return d.children ? 0 : 1;
    }
-   
+
    function sumBySize(d) {
      return d.size;
    }
-   
-   
+
+
 </script>

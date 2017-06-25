@@ -13,7 +13,7 @@ AZE,Azerbaijan
 BDI,Burundi
 BEL,Belgium
 BEN,Benin
-BFA,Burkina Faso
+BFA,Burkina_Faso
 BGD,Bangladesh
 BGR,Bulgaria
 BHS,The Bahamas
@@ -26,12 +26,12 @@ BRA,Brazil
 BRN,Brunei
 BTN,Bhutan
 BWA,Botswana
-CAF,Central African Republic
+CAF,Central_African_Republic
 CAN,Canada
 CHE,Switzerland
 CHL,Chile
 CHN,China
-CIV,Ivory Coast
+CIV,Ivory_Coast
 CMR,Cameroon
 COD,Democratic Republic of the Congo
 COG,Republic of the Congo
@@ -40,7 +40,7 @@ CRI,Costa Rica
 CUB,Cuba
 -99,Northern Cyprus
 CYP,Cyprus
-CZE,Czech Republic
+CZE,Czech_Republic
 DEU,Germany
 DJI,Djibouti
 DNK,Denmark
@@ -57,7 +57,7 @@ FJI,Fiji
 FLK,Falkland Islands
 FRA,France
 GAB,Gabon
-GBR,United Kingdom
+GBR,United_Kingdom
 GEO,Georgia
 GHA,Ghana
 GIN,Guinea
@@ -88,7 +88,7 @@ KAZ,Kazakhstan
 KEN,Kenya
 KGZ,Kyrgyzstan
 KHM,Cambodia
-KOR,South Korea
+KOR,South_Korea
 CS-KM,Kosovo
 KWT,Kuwait
 LAO,Laos
@@ -128,7 +128,7 @@ PAK,Pakistan
 PAN,Panama
 PER,Peru
 PHL,Philippines
-PNG,Papua New Guinea
+PNG,Papua_New_Guinea
 POL,Poland
 PRI,Puerto Rico
 PRK,North Korea
@@ -139,13 +139,13 @@ ROU,Romania
 RUS,Russia
 RWA,Rwanda
 ESH,Western Sahara
-SAU,Saudi Arabia
+SAU,Saudi_Arabia
 SDN,Sudan
-SDS,South Sudan
+SDS,South_Sudan
 SEN,Senegal
 SLB,Solomon Islands
-SLE,Sierra Leone
-SLV,El Salvador
+SLE,Sierra_Leone
+SLV,El_Salvador
 -99,Somaliland
 SOM,Somalia
 SRB,Republic of Serbia
@@ -169,13 +169,13 @@ TZA,United Republic of Tanzania
 UGA,Uganda
 UKR,Ukraine
 URY,Uruguay
-USA,United States of America
+USA,United_States
 UZB,Uzbekistan
 VEN,Venezuela
 VNM,Vietnam
 VUT,Vanuatu
 PSE,West Bank
 YEM,Yemen
-ZAF,South Africa
+ZAF,South_Africa
 ZMB,Zambia
 ZWE,Zimbabwe

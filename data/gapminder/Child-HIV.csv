@@ -1,0 +1,118 @@
+,countries,Gini,value,Continent
+0,Lesotho,63.2,13.0419397779163,Africa
+1,Haiti,60.8,3.19564835422279,North America
+2,Botswana,60.5,0.0,Africa
+3,Namibia,59.7,7.50753306889566,Africa
+4,Honduras,57.7,0.41678450752445007,Central America
+5,Zambia,57.5,16.9208137622864,Africa
+6,Colombia,53.5,0.052260881967709005,South America
+7,Paraguay,53.2,0.27979126270448,South America
+8,Guatemala,53.0,0.9433086939040601,Central America
+9,Chile,52.1,0.011941771920118,South America
+10,Panama,51.9,0.15682249119656,Central America
+11,Brazil,51.9,0.04798925040790901,South America
+12,Swaziland,50.4,40.1541095890411,Africa
+13,Gambia,50.2,1.37488542621448,Africa
+14,Zimbabwe,50.1,19.9657925951029,Africa
+15,Ecuador,48.5,0.22788857672902,South America
+16,Thailand,48.4,0.27947744883157,Asia
+17,Mexico,48.3,0.038562168072477004,North America
+18,Madagascar,47.5,0.11786378438785,Africa
+19,China,46.9,0.065678692227498,Asia
+20,Rwanda,46.8,0.6972583602766199,Africa
+21,Bolivia,46.6,0.10655057727581,South America
+22,Singapore,46.4,0.0,Asia
+23,Malaysia,46.2,0.23790800769295997,Asia
+24,Philippines,46.0,0.014312543916028,Asia
+25,Georgia,46.0,0.076666538889102,Asia
+26,Argentina,45.8,0.021762722487566,South America
+27,Mozambique,45.6,17.688554122708602,Africa
+28,Jamaica,45.5,1.16412213740458,North America
+29,Uruguay,45.3,0.019858606720152,South America
+30,Peru,45.3,0.3136541363755,South America
+31,Cameroon,44.6,6.193497821200731,Africa
+32,Guyana,44.6,3.52371164293055,South America
+33,Iran,44.5,0.17439355003293,Asia
+34,Nigeria,43.7,4.88676595033804,Africa
+35,Chad,43.3,5.7179658486966005,Africa
+36,Israel,42.8,0.0,Asia
+37,Kenya,42.5,5.8786352271988,Africa
+38,Burundi,42.4,3.94571844506263,Africa
+39,Ghana,42.3,1.89949967945117,Africa
+40,Russia,42.0,0.009706482441944001,Europe
+41,Cote d'Ivoire,41.5,4.49803981326278,
+42,Djibouti,40.9,5.62401786452733,Africa
+43,Morocco,40.9,0.034031968393582995,Africa
+44,Turkmenistan,40.8,0.0,Asia
+45,Nicaragua,40.5,0.17860970207902,Central America
+46,Senegal,40.3,1.5099186770560402,Africa
+47,Turkey,40.2,0.0,Asia
+48,Mali,40.1,2.05771180971697,Africa
+49,Tunisia,40.0,0.0,Africa
+50,Jordan,39.7,0.0,Asia
+51,Uganda,39.5,6.51049751199652,Africa
+52,Guinea,39.4,2.5856067888752596,Africa
+53,Venezuela,39.0,0.05179399356752,South America
+54,Malawi,39.0,12.8505804727303,Africa
+55,Mauritania,39.0,0.6205887256627299,Africa
+56,Serbia,38.7,0.0,Europe
+57,Bhutan,38.7,0.0,Asia
+58,Cambodia,37.9,0.29615278162192,Asia
+59,Japan,37.9,0.0,Asia
+60,Tanzania,37.6,8.40534432894709,Africa
+61,Vietnam,37.6,0.45657056592657996,Asia
+62,Maldives,37.4,0.0,Asia
+63,Indonesia,36.8,0.15048398968841,Asia
+64,Uzbekistan,36.8,0.08494610440779903,Asia
+65,Greece,36.7,0.0,Europe
+66,Laos,36.7,0.058892121411998004,Asia
+67,Mongolia,36.5,0.040291711994842994,Asia
+68,Benin,36.5,1.55082310667907,Africa
+69,Spain,35.9,0.008142046136904,Europe
+70,Mauritius,35.9,0.11054609772275001,Africa
+71,Estonia,35.6,0.06275888038157401,Europe
+72,Lithuania,35.5,0.0,Europe
+73,Bulgaria,35.4,0.0,Europe
+74,Algeria,35.3,0.054586680849873004,Africa
+75,Latvia,35.2,0.0,Europe
+76,Cyprus,34.8,0.0,Asia
+77,Portugal,34.2,0.038228857052746,Europe
+78,Niger,34.0,0.72982729528787,Africa
+79,Azerbaijan,33.7,0.060346388268662,Asia
+80,India,33.6,0.31899269501155,Asia
+81,Kyrgyzstan,33.4,0.099782972035822,Asia
+82,Ethiopia,33.0,2.93557575110973,Africa
+83,Nepal,32.8,0.38128661683975,Asia
+84,Tajikistan,32.6,0.14001607591982998,Asia
+85,Poland,32.4,0.0,Europe
+86,Canada,32.1,0.0,North America
+87,Bangladesh,32.1,0.017495052544932,Asia
+88,Croatia,32.0,0.0,Europe
+89,Italy,31.9,0.0,Europe
+90,Ireland,31.3,0.0,Europe
+91,Egypt,30.8,0.016376480396608998,Africa
+92,Hungary,30.6,0.0,Europe
+93,Luxembourg,30.4,0.0,Europe
+94,Armenia,30.3,0.084914872839978,Asia
+95,Australia,30.3,0.0,Australia
+96,France,30.1,0.0,Europe
+97,Pakistan,29.6,0.079633782036905,Asia
+98,Austria,29.2,0.0,Europe
+99,Albania,29.0,0.0,Europe
+100,Kazakhstan,28.9,0.05258556657661401,Asia
+101,Switzerland,28.7,0.0,Europe
+102,Moldova,28.5,0.0,Europe
+103,Iceland,28.0,0.0,Europe
+104,Malta,27.7,0.0,Europe
+105,Romania,27.3,0.0,Europe
+106,Germany,27.0,0.0030034449513590003,Europe
+107,Norway,26.8,0.0,Europe
+108,Finland,26.8,0.0,Europe
+109,Belarus,26.5,0.0,Europe
+110,Montenegro,26.2,0.0,Europe
+111,Belgium,25.9,0.0,Europe
+112,Netherlands,25.1,0.0,Europe
+113,Sweden,24.9,0.009320272524769002,Europe
+114,Denmark,24.8,0.0,Europe
+115,Ukraine,24.6,0.13951349030054,Europe
+116,Slovenia,23.7,0.0,Europe

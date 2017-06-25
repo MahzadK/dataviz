@@ -1,5 +1,39 @@
 <!DOCTYPE html>
 <!--The code is modified from : https://gist.github.com/phil-pedruco/10447085-->
+<style>
+
+
+rect {
+            pointer-events: all;
+            cursor: pointer;
+            stroke: #EEEEEE;
+        }
+
+form {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+svg {
+  font: 12px sans-serif;
+}
+
+.toolTip {
+        position: absolute;
+        display: none;
+        width: auto;
+        height: auto;
+        background: none repeat scroll 0 0 white;
+        border: 0 none;
+        border-radius: 8px 8px 8px 8px;
+        box-shadow: -3px 3px 15px #888888;
+        color: black;
+        font: 12px sans-serif;
+        padding: 5px;
+        text-align: center;
+    }
+
+</style>
+
 <html>
 
 <head>
@@ -9,9 +43,10 @@
 
     <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-a8"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
     <script src="../static/chroniton.js"></script>
+
      <link rel="stylesheet" type="text/css" href="../css/style.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.8.0/d3-legend.min.js"></script>
 

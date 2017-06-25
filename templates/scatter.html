@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  stroke: #000;
+}
+.line{
+stroke:dimgrey;
+stroke-width:2px;
+}
+.tooltip{
+position:absolute;
+width:auto;
+border-radius:10px;
+height:auto;
+font-family: calibri;
+font-weight:bold;
+font-size: 14px;
+background-color: lightgrey;
+border:1px solid grey;
+text-align: center;
+padding:10px;
+}
+
+</style>
+
+
+<script src="../static/d3-5/d3.min.js"></script>
+<script src="../static/d3-5/d3.js"></script>
+
+<script>
+
+
+var margin = {top: 5, right: 0, bottom: 20, left: 0},
+    width = 600,
+    height = 400;
+
+var  svg = d3.select("body").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+// Réception des messages
+window.onload = function() {
+
+  function receiveMessage(e) {
+    file_name = e.data +".csv";
+      d3.select("svg").remove();
+
+
+     console.log(file_name);
+    //buildTreeMap(file_name)
+     drawScatter(file_name)
+  }
+  window.addEventListener('message', receiveMessage);
+}
+
+// Fin de la réception
+
+
+
+function drawScatter(file_name){
+
+
+  var format = d3.format(",.f");
+
+
+  var x = d3.scale.linear()
+      .range([0, width]);
+
+  var y = d3.scale.linear()
+      .range([height, 0]);
+
+  var color = d3.scale.category10();
+
+  var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
+  var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left");
+
+  console.log(file_name);
+
+
+
+      var result;
+
+
+  // add the tooltip area to the webpage
+  var tooltip = d3.select("body").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
+
+
+  svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+// Global variable declaration of regression line equation
+var regression;
+
+   var cValue = function(d) { return d.Continent ? d.Continent: "Autre";},
+    color = d3.scale.category10();
+
+    var xValue = function(d) { return d.Gini;}, // data -> value
+    xScale = d3.scale.linear().range([0, width]), // value -> display
+    xMap = function(d) { return xScale(xValue(d));}, // data -> display
+    xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+
+// setup y
+var yValue = function(d) { return (d.value);}, // data -> value
+    yScale = d3.scale.linear().range([height, 0]), // value -> display
+    yMap = function(d) { return yScale(yValue(d));}, // data -> display
+    yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+
+
+
+///////////////////////////fonction build scatter //////////
+
+    // Pour les autres fichiers, ils sont dans le chemin suivant  "../data/data_scatter/" ça n'a pas marcher pour moi
+d3.csv(file_name, function(error, data) { //"../data/data_scatter/teen-fertility.csv"
+  if (error) throw error;
+result=data;
+
+  data.forEach(function(d) {
+     d.Gini = +d.Gini;
+     d.value = +d.value;
+     console.log(d.value);
+  });
+
+
+
+  //for tool tip
+  //d3.select("body").append("div").attr("class","tooltip");
+
+
+
+  x.domain(d3.extent(data, function(d) { return d.Gini; })).nice();
+  y.domain(d3.extent(data, function(d) { return (d.value); })).nice();
+
+
+
+
+var XaxisData = data.map(function(d) { return d.Gini; });
+var YaxisData = data.map(function(d) { return (d.value); });
+regression=leastSquaresequation(XaxisData,YaxisData);
+
+
+
+
+
+var line = d3.svg.line()
+    .x(function(d) { return x(d.Gini); })
+    .y(function(d) { return y(regression(d.Gini)); });
+
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+      .append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+      .text("Gini");
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      //.text("Teen fertility")
+
+  svg.selectAll(".dot")
+      .data(data)
+    .enter().append("circle")
+      .attr("class", "dot")
+      .attr("opacity",0.5)
+      .attr("r", function(d){return Math.sqrt(d.Gini)})
+      .attr("cx", function(d) { return x(d.Gini); })
+      .attr("cy", function(d) { return (y(d.value)); })
+      .style("fill", function(d) { return color(cValue(d));})
+      .style("stroke"," lightgrey" ).style("stroke-width","1px")
+      .on("mouseover", function(d) {
+          tooltip.transition()
+               .duration(200)
+               .style("opacity", .9);
+          tooltip.html(d["countries"] + "<br/> (" +"Gini :" +  xValue(d) + ")")
+               .style("left", (d3.event.pageX + 5) + "px")
+               .style("top", (d3.event.pageY - 28) + "px");
+      })
+      .on("mouseout", function(d) {
+          tooltip.transition()
+               .duration(500)
+               .style("opacity", 0);
+      });
+
+
+  svg.append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("d", line)
+      .on("mousemove",function(){
+        d3.select(".tooltip").style("left",function(d){return (d3.event.pageX+10)+"px"}).style("top",function(d){ return (d3.event.pageY-50)+"px"});
+        d3.select(".tooltip").style("visibility","visible");
+
+
+      })
+      .on("mouseout",function(){
+          d3.select(".tooltip").style("visibility","hidden");
+
+      });
+
+  var legend = svg.selectAll(".legend")
+      .data(color.domain())
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+
+});
+
+
+
+
+function leastSquaresequation(XaxisData, Yaxisdata) {
+    var ReduceAddition = function(prev, cur) { return prev + cur; };
+
+    // finding the mean of Xaxis and Yaxis data
+    var xBar = XaxisData.reduce(ReduceAddition) * 1.0 / XaxisData.length;
+    var yBar = Yaxisdata.reduce(ReduceAddition) * 1.0 / Yaxisdata.length;
+
+    var SquareXX = XaxisData.map(function(d) { return Math.pow(d - xBar, 2); })
+      .reduce(ReduceAddition);
+
+    var ssYY = Yaxisdata.map(function(d) { return Math.pow(d - yBar, 2); })
+      .reduce(ReduceAddition);
+
+    var MeanDiffXY = XaxisData.map(function(d, i) { return (d - xBar) * (Yaxisdata[i] - yBar); })
+      .reduce(ReduceAddition);
+
+    var slope = MeanDiffXY / SquareXX;
+    var intercept = yBar - (xBar * slope);
+
+// returning regression function
+    return function(x){
+      return x*slope+intercept
+    }
+
+  }
+
+
+}
+
+
+</script>

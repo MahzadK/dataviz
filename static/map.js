@@ -1,26 +1,7 @@
-<!DOCTYPE html>
-<!--The code is modified from : https://gist.github.com/phil-pedruco/10447085-->
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Coefficient de Gini</title>
-
-    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-    <script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.8.0/d3-legend.min.js"></script>
-
-</head>
-
-<body>
-<p id="report"></p>
-<div id="map"></div>
-<div id="legend"></div>
-</body>
-<script type="text/javascript">
-    var h = 450,
-        w = 960;
+// Set the dimensions of the canvas / graph
+  var	margin = {top: 30, right: 20, bottom: 30, left: 50},
+  w = 800 - margin.left - margin.right,
+   h = 400 - margin.top - margin.bottom;
     // set-up unit projection and path
     var projection = d3.geo.mercator()
             .scale(1)
@@ -29,16 +10,30 @@
             .projection(projection);
     // set-up svg canvas
     var svg = d3.select("#map").append("svg")
-            .attr("height", h)
-            .attr("width", w);
+            .attr("width", w + margin.left + margin.right)
+             .attr("height", h + margin.top + margin.bottom);
+
     var color = d3.scale.linear()
-            .range(["green", "red"]);
+            .range(["PapayaWhip", "red"]);
+
+   var linear = d3.scale.linear()
+                .range(["PapayaWhip", "red"]);
 
     var showValue= "Gini";
     var record=[];
 
-    var linear = d3.scale.linear()
-            .range(["green", "red"]);
+    var g = svg.append("g");
+            // zoom and pan
+    var zoom = d3.behavior.zoom()
+             .on("zoom",function() {
+                 g.attr("transform","translate("+
+                     d3.event.translate.join(",")+")scale("+d3.event.scale+")");
+                 g.selectAll("path")
+                     .attr("d", path.projection(projection));
+           });
+
+    svg.call(zoom)
+
 
     function addRecord(d){
       if (  d[showValue]!=0){
@@ -48,7 +43,7 @@
         return d;
       }
     }
-    d3.csv("../data/gini-complete.csv", addRecord, function(error,data){
+    d3.csv("../data/gapminder/gini-complete.csv", addRecord, function(error,data){
         color.domain(d3.extent(data, function(d){
           return d[showValue];
         }));
@@ -75,7 +70,7 @@
                     t = [(w - s * (b[1][0] + b[0][0])) / 2, (h - s * (b[1][1] + b[0][1])) / 2];
             projection.scale(s)
                     .translate(t);
-            svg.selectAll("path")
+            g.selectAll("path")
                     .data(world).enter()
                     .append("path")
                     .style("fill", getColor)
@@ -86,13 +81,13 @@
                         reporter(d);
                     });
         });
-        svg.append("g")
+        g.append("g")
                 .attr("class", "legendLinear")
                 .attr("transform", "translate(20,20)");
         var legendLinear = d3.legend.color()
                 .shapeWidth(60)
                 .scale(linear);
-        svg.select(".legendLinear")
+        g.select(".legendLinear")
                 .call(legendLinear);
         function reporter(x) {
             var value = "Not known";
@@ -120,6 +115,3 @@
             return color(value);
         }
     })
-</script>
-
-</html>
