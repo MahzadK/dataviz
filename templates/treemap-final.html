@@ -34,7 +34,7 @@ svg {
     }
 
 </style>
-<svg width="600" height="400"></svg>
+<svg width="500" height="500"></svg>
 
 <script src="../static/d3.min.js"></script>
 <script src="../static/d3.js"></script>
@@ -44,9 +44,9 @@ svg {
 var file_name = "../data/gapminder/gini_teen_fertility_.json";
 
 
-var margin = {top: 10, right: 0, bottom: 20, left: 0},
-    width = 600,
-    height = 400 - margin.top - margin.bottom,
+var margin = {top: 10, right: 0, bottom: 0, left: 0},
+    width = 500,
+    height = 500 - margin.top - margin.bottom,
     format = d3.format(",d"),
     colorDomain = [-.1, 0, .1],
     colorRange = ["#373a93", "#936638"],

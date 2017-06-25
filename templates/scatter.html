@@ -43,9 +43,9 @@ padding:10px;
 <script>
 
 
-var margin = {top: 5, right: 0, bottom: 20, left: 0},
-    width = 600,
-    height = 400;
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 700 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
 
 var  svg = d3.select("body").append("svg")
       .attr("width", width + margin.left + margin.right)
