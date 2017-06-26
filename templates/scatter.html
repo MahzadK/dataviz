@@ -72,13 +72,23 @@ window.onload = function() {
 
 // Fin de la réception
 
-
-
 function drawScatter(file_name){
 
 
   var format = d3.format(",.f");
 
+
+
+      var xValue = function(d) { return d.Gini;}, // data -> value
+      xScale = d3.scale.linear().range([0, width]), // value -> display
+      xMap = function(d) { return xScale(xValue(d));}, // data -> display
+      xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+
+      // setup y
+      var yValue = function(d) { return (d.value);}, // data -> value
+      yScale = d3.scale.linear().range([height, 0]), // value -> display
+      yMap = function(d) { return yScale(yValue(d));}, // data -> display
+      yAxis = d3.svg.axis().scale(yScale).orient("left");
 
   var x = d3.scale.linear()
       .range([0, width]);
@@ -98,9 +108,7 @@ function drawScatter(file_name){
 
   console.log(file_name);
 
-
-
-      var result;
+  var result;
 
 
   // add the tooltip area to the webpage
@@ -122,19 +130,6 @@ var regression;
    var cValue = function(d) { return d.Continent ? d.Continent: "Autre";},
     color = d3.scale.category10();
 
-    var xValue = function(d) { return d.Gini;}, // data -> value
-    xScale = d3.scale.linear().range([0, width]), // value -> display
-    xMap = function(d) { return xScale(xValue(d));}, // data -> display
-    xAxis = d3.svg.axis().scale(xScale).orient("bottom");
-
-// setup y
-var yValue = function(d) { return (d.value);}, // data -> value
-    yScale = d3.scale.linear().range([height, 0]), // value -> display
-    yMap = function(d) { return yScale(yValue(d));}, // data -> display
-    yAxis = d3.svg.axis().scale(yScale).orient("left");
-
-
-
 
 ///////////////////////////fonction build scatter //////////
 
@@ -146,7 +141,7 @@ result=data;
   data.forEach(function(d) {
      d.Gini = +d.Gini;
      d.value = +d.value;
-     console.log(d.value);
+
   });
 
 
@@ -160,13 +155,10 @@ result=data;
   y.domain(d3.extent(data, function(d) { return (d.value); })).nice();
 
 
-
-
 var XaxisData = data.map(function(d) { return d.Gini; });
 var YaxisData = data.map(function(d) { return (d.value); });
+
 regression=leastSquaresequation(XaxisData,YaxisData);
-
-
 
 
 
@@ -181,7 +173,7 @@ var line = d3.svg.line()
       .call(xAxis)
       .append("text")
       .attr("class", "label")
-      .attr("x", width)
+        .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
       .text("Gini");
