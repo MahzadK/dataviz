@@ -1,85 +1,216 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
 <style>
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin: auto;
-  position: relative;
-  width: 960px;
-}
+
+
+rect {
+            pointer-events: all;
+            cursor: pointer;
+            stroke: #EEEEEE;
+        }
+
 form {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-.node {
-  border: solid 1px white;
-  font: 10px sans-serif;
-  line-height: 12px;
-  overflow: hidden;
-  position: absolute;
-  text-indent: 2px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+svg {
+  font: 12px sans-serif;
+}
+
+.toolTip {
+        position: absolute;
+        display: none;
+        width: auto;
+        height: auto;
+        background: none repeat scroll 0 0 white;
+        border: 0 none;
+        border-radius: 8px 8px 8px 8px;
+        box-shadow: -3px 3px 15px #888888;
+        color: black;
+        font: 12px sans-serif;
+        padding: 5px;
+        text-align: center;
+        margin-left: -100px;
+        margin-top: 40px;
+    }
 
 </style>
-<form>
-  <label><input type="radio" name="mode" value="size" checked> Size</label>
-  <label><input type="radio" name="mode" value="count"> Count</label>
-</form>
-<script src="//d3js.org/d3.v4.min.js"></script>
+<svg width="1000" height="1000"></svg>
+
+<script src="../static/d3.min.js"></script>
+<script src="../static/d3.js"></script>
+
 <script>
-'use strict';
 
-const margin = {top: 40, right: 10, bottom: 10, left: 10},
-      width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom,
-      color = d3.scaleOrdinal().range(d3.schemeCategory20c);
 
-const treemap = d3.treemap().size([width, height]);
 
-const div = d3.select("body").append("div")
-    .style("position", "relative")
-    .style("width", (width + margin.left + margin.right) + "px")
-    .style("height", (height + margin.top + margin.bottom) + "px")
-    .style("left", margin.left + "px")
-    .style("top", margin.top + "px");
 
-d3.json("../data/gapminder/gini_teen_fertility_.json", function(error, data) {
-  if (error) throw error;
+var margin = {top: 10, right: 0, bottom: 0, left: 0},
+    width = 700,
+    height = 700 - margin.top - margin.bottom,
+    format = d3.format(",d"),
+    colorDomain = [-.1, 0, .1],
+    colorRange = ["#373a93", "#936638"],
+    transitioning;
 
-  const root = d3.hierarchy(data, (d) => d.children)
-    .sum((d) => d.size);
 
-  const tree = treemap(root);
+var svg = d3.select("svg"),
+    width = width,
+    height = height;
 
-  const node = div.datum(root).selectAll(".node")
-      .data(tree.leaves())
-    .enter().append("div")
-      .attr("class", "node")
-      .style("left", (d) => d.x0 + "px")
-      .style("top", (d) => d.y0 + "px")
-      .style("width", (d) => Math.max(0, d.x1 - d.x0 - 1) + "px")
-      .style("height", (d) => Math.max(0, d.y1 - d.y0  - 1) + "px")
-      .style("background", (d) => color(d.parent.data.name))
-      .text((d) => d.parent.data.name);
 
-  d3.selectAll("input").on("change", function change() {
-    const value = this.value === "count"
-        ? (d) => { return d.size ? 1 : 0;}
-        : (d) => { return d.size; };
+var treemap = d3.treemap()
+    .tile(d3.treemapResquarify)
+    .size([width, height])
+    .round(true)
+    .paddingInner(1)
+    ;
 
-    const newRoot = d3.hierarchy(data, (d) => d.children)
-      .sum(value);
 
-    node.data(treemap(newRoot).leaves())
-      .transition()
-        .duration(1500)
-        .style("left", (d) => d.x0 + "px")
-        .style("top", (d) => d.y0 + "px")
-        .style("width", (d) => Math.max(0, d.x1 - d.x0 - 1) + "px")
-        .style("height", (d) => Math.max(0, d.y1 - d.y0  - 1) + "px")
-  });
-});
+
+var cell;
+var root;
+
+
+
+/*
+var dropdown_options = [
+{ value: "../data/gapminder/gini_teen_fertility_.json",
+  text: "Teen fertility" },
+{ value: "../data/gapminder/gini_child_death_.json",
+  text: "Child Death" }
+]
+
+    var select = d3.select('body')
+      .append('select')
+      .attr('class','select')
+      .on('change',onchange)
+
+    var options = select
+      .selectAll('option')
+      .data(dropdown_options).enter()
+      .append('option')
+      .attr("value", function (d) { return d.value })
+      .text( function (d) { return d.text });
+
+    function onchange() {
+      selectValue = d3.select('select').property('value');
+      file_name = selectValue;
+      console.log(file_name);
+      buildTreeMap(file_name);
+    };
+*/
+    var tool = d3.select("body").append("div").attr("class", "toolTip");
+
+
+    // Fin de la réception
+
+var file_name = "../data/gapminder/Child out of school primary.json";
+// ******************************** BUILD TREE **************************
+function buildTreeMap(file_name){
+  svg.selectAll("g").remove()
+
+   d3.json(file_name, function(error, data) {
+
+
+    //var fader = function(color) { return d3.interpolateRgb(color, "#fff")(0.7); };
+
+
+   //var max = d3.max(d3.max((data.gini))) ;
+
+   //console.log(max);
+
+   //var min = d3.min(d.values(d.parent.data.gini));
+
+    var color = d3.scaleLinear()
+                  .range(["white", "red"])
+                  .domain([20, 60]);
+
+
+
+   root = d3.hierarchy(data)
+      .eachBefore(function(d) { d.data.id = (d.parent ? d.parent.data.id + "." : "") + d.data.name; })
+      .sum(sumBySize)
+      .sort(function(a, b) { return b.height - a.height || b.value - a.value; });
+
+  treemap(root);
+
+   cell = svg.selectAll("g")
+    .data(root.leaves())
+    .enter().append("g")
+    .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; })
+    .on("mousemove", function (d) {
+                    tool.style("left", d3.event.pageX + 10 + "px")
+                    tool.style("top", d3.event.pageY - 20 + "px")
+                    tool.style("display", "inline-block");
+                    tool.html(d.parent.data.name + "<br>" + "Coefficient Indicator : "+format(d.value) + "<br>"  + "Gini  " + format(d.parent.data.gini) )
+                }).on("mouseout", function (d) {
+                    tool.style("display", "none");
+                });
+
+    ;
+
+  cell.append("rect")
+      .attr("id", function(d) { return d.data.id; })
+      .attr("width", function(d) { return d.x1 - d.x0; })
+      .attr("height", function(d) { return d.y1 - d.y0; })
+      .attr("fill", function(d) {return color(d.parent.data.gini)});
+
+  cell.append("clipPath")
+      .attr("id", function(d) { return "clip-" + d.data.id; })
+    .append("use")
+      .attr("xlink:href", function(d) { return "#" + d.data.id; });
+
+  cell.append("text")
+      .attr("clip-path", function(d) { return "url(#clip-" + d.data.id + ")"; })
+    .selectAll("tspan")
+      .data(function(d) { return d.parent.data.name.split(/(?=[A-Z][^A-Z])/g); })
+    .enter().append("tspan")
+      .attr("x", 4)
+      .attr("y", function(d, i) { return 13 + i * 10; })
+      .text(function(d) { return d; });
+
+
+/*
+    cell.append("title")
+      .text(function(d) { return d.parent.data.name + "\n" + "Coefficient Indicator "+format(d.value) + "\n" + "Gini  " + format(d.parent.data.gini)  })
+*/
+
+
+  d3.selectAll("input")
+      .data(data, function(d) { return d ? d.name : this.value; })
+      .on("change", onchange);
+
+
+  var timeout = d3.timeout(function() {
+    d3.select("input[value=\"sumByCount\"]");
+  }, 10);
+
+  function changed(sum) {
+    timeout.stop();
+
+    treemap(root.sum(sum));
+
+    cell.transition()
+        .duration(750)
+        .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; })
+        .select("rect")
+        .attr("width", function(d) { return d.x1 - d.x0; })
+        .attr("heigdht", function(d) { return d.y1 - d.y0; });
+  }
+
+cell.exit().remove();
+
+
+})
+
+};
+
+function sumBySize(d) {
+  return d.size;
+}
+
+buildTreeMap(file_name);
+
+
 
 </script>
